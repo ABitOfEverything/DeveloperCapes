@@ -1,9 +1,11 @@
+# Updated to Forge 1.10.2
+
 Developer Capes
 =============
 
-###Notice: This project is no longer actively maintained. You are free to fork, update, and use it as the license permits. Thank you.
+### Notice: This project is no longer actively maintained. You are free to fork, update, and use it as the license permits. Thank you.
 
-####Version: 3.4.1.x
+#### Version: 3.4.1.x
 
 A Minecraft library for adding Developer/Tester only capes!
 Use this to add tester or developer only capes to your mod!
