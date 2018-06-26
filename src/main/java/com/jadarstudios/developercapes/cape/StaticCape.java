@@ -6,12 +6,14 @@
  */
 package com.jadarstudios.developercapes.cape;
 
+import com.jadarstudios.developercapes.DevCapes;
 import com.jadarstudios.developercapes.HDImageBuffer;
 import com.mojang.authlib.minecraft.MinecraftProfileTexture;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.client.renderer.ThreadDownloadImageData;
 import net.minecraft.util.ResourceLocation;
+import com.mojang.authlib.minecraft.MinecraftProfileTexture.Type;
 
 import java.net.URL;
 
@@ -34,7 +36,26 @@ public class StaticCape extends AbstractCape {
     @Override
     public void loadTexture(AbstractClientPlayer player) {
         ResourceLocation location = this.getLocation();
-        player.func_152121_a(MinecraftProfileTexture.Type.CAPE, location);
+
+        try {
+            NetworkPlayerInfo npi = Minecraft.getMinecraft().getConnection().getPlayerInfo(player.getUniqueID());
+            Field plrTxtrsF;
+            try {
+                plrTxtrsF = NetworkPlayerInfo.class.getDeclaredField("playerTextures");
+            }
+            catch(NoSuchFieldException e) {
+                plrTxtrsF = NetworkPlayerInfo.class.getDeclaredField("field_187107_a");
+            }
+            plrTxtrsF.setAccessible(true);
+            @SuppressWarnings("unchecked")
+            Map<Type, ResourceLocation> plrTxtrs = (Map<Type, ResourceLocation>) plrTxtrsF.get(npi);
+            plrTxtrs.put(Type.CAPE, location);
+            plrTxtrsF.setAccessible(false);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            DevCapes.logger.error("Setting cape ResourceLocation failed!");
+        }
 
         Minecraft.getMinecraft().renderEngine.loadTexture(location, this.getTexture());
     }
