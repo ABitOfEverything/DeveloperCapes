@@ -59,7 +59,7 @@ if(System.getenv().BUILD_NUMBER != null)
 }
 
 // version and stuff
-version = "3.4.1.${buildnumber}"
+version = "3.4.1.${buildnumber}-mc1102"
 group= "com.jadarstudios.developercapes"
 archivesBaseName = "DeveloperCapes"
 
